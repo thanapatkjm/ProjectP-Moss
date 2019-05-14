@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 from rest_framework.views import APIView
 from rest_framework.response import Response
 
+from .models import UserPoints
 
 max_id = 7000000000000
 min_id = 5000000000000
@@ -13,19 +14,26 @@ class get_user(APIView):
         username = int(self.request.query_params.get('id'))
         if (username<=max_id and username>=min_id):
             try:
+                print("11111111111")
                 user = User.objects.get(username=username)
             except:
-                User.objects.create_user(username=username,password="password")
+                print("2222222222")
+                newUser = User.objects.create_user(username=username,password="password")
+                thisUser = UserPoints.objects.create(user=newUser)
                 data = {"id":username,
                         "verify":True,
-                        "point(s)":0}
+                        "point(s)":thisUser.points}
             else:
+                print("----------")
+                print(user.id)
+                thisUser = UserPoints.objects.get(user=user.id)
+                thisUser.points = thisUser.points+1
+                thisUser.save()
                 data = {"id":username,
                         "verify":True,
-                        "point(s)":0}
+                        "point(s)":thisUser.points}
         else:
             data = {"id":username,
                     "verify":False,
                     "error":"Invalid Id"}
         return Response(data)
-
