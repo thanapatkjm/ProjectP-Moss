@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<style>
+	body {margin:0;}
+
+	font-family: Arial;
+	}
+
+	* {
+	box-sizing: border-box;
+	}
+
+	fieldset {
+  display: block;
+  margin-left: 10px;
+  margin-right: 2px;
+  padding-top: 0.35em;
+  padding-bottom: 0.625em;
+  padding-left: 0.75em;
+  padding-right: 0.75em;
+  border: 2px groove (internal value);
+  width:380px;
+	font-size:18px;
+	}
+	.small {
+	  width:300px;
+	}
+	.left {
+	  float:left;
+	  width:50%;
+	}
+	.right {
+	  float:left;
+	  width:50%;
+	}
+	.button {
+	  background-color: #4CAF50; /* Green */
+	  border: none;
+	  color: white;
+	  padding: 16px 32px;
+	  text-align: center;
+	  text-decoration: none;
+	  display: inline-block;
+	  font-size: 16px;
+		margin-left: 10px;
+	  margin-right: 2px;
+	  -webkit-transition-duration: 0.4s; /* Safari */
+	  transition-duration: 0.4s;
+	  cursor: pointer;
+	}
+	.button1 {
+	  background-color: white;
+	  color: black;
+	  border: 2px solid #000000;
+		position: relative;
+	}
+
+	.button1:hover {
+	  background-color: #000000;
+	  color: white;
+	}
+	.rightmenu {
+	  background-color: green;
+	}
+	.leftmenu {
+		background-color: grey;
+	}
+	ul {
+	  list-style-type: none;
+	  margin: 0;
+	  padding: 0;
+	  overflow: hidden;
+	  background-color: black	;
+	  position: fixed;
+	  top: 0;
+	  width: 100%;
+	}
+
+	li {
+	  float: left;
+	}
+
+	li a {
+	  display: block;
+	  color: white;
+	  text-align: center;
+	  padding: 14px 16px;
+	  text-decoration: none;
+	}
+
+	.rightmenu {
+	  background-color: green;
+	}
+	</style>
+</head>
+	<body>
+	<ul>
+		<li><a>Admin</a></li>
+        <li style="float:right"><a class="rightmenu" href="{% url 'myWeb:logout' %}">LogOut</a></li>
+        <li style="float:right"><a href="{% url 'myWeb:home' %}">{{ user.get_username }}</a></li>
+				{% if package %}
+					<li><a class ="leftmenu" href="{% url 'myWeb:home' %}">User</a></li>
+				{% else %}
+					<li><a class ="leftmenu" href="{% url 'myWeb:home_package' %}">Package</a></li>
+				{% endif %}
+	</ul>
+	</br>
+	</br>
+		<fieldset class="small">
+		 <legend><h2>Admin</h2></legend>
+			Username: {{user.username}}<br><br>
+			<form action="{% url 'myWeb:changepass' %}" method="post">
+			{% csrf_token %}
+				<input type="submit" value="Change Password">
+			</form>
+		</fieldset>
+		{% if package %}
+			<fieldset>
+			<legend><h2>list of packages</h2></legend>
+				<table border="1">
+				<tr>
+					<th>Package ID</th>
+					<th>Name</th>
+					<th>Type</th>
+					<th>Material</th>
+					<th>Points</th>
+				</tr>
+						{% for p in list_package %}
+							<div style="overflow-x:auto;"></div>
+							<tr>
+								<form action="{% url 'myWeb:package_action' p.package_id %}" method="post">
+								{% csrf_token %}
+								<td><input type="text" name="package_id" placeholder={{p.package_id}} value={{p.package_id}}></td>
+								<td><input type="text" name="name" placeholder={{p.name}} value={{p.name}}></td>
+								<td><input type="text" name="type" placeholder={{p.type}} value={{p.type}}></td>
+								<td><input type="text" name="material" placeholder={{p.material}} value={{p.material}}></td>
+								<td><input type="text" name="points" placeholder={{p.points}} value={{p.points}}></td>
+								<td><input type="submit" name="save" value="Save"></td>
+								<td><input type="submit" name="delete" value="Delete"></td>
+								</form>
+							</tr>
+
+							</div>
+						</form>
+						{% endfor %}
+								<form action="{% url 'myWeb:new_package' %}" method="post">
+								{% csrf_token %}
+								<tr>
+								<td><input type="text" name="package_id" placeholder="package_id"></td>
+								<td><input type="text" name="name" placeholder="name"></td>
+								<td><input type="text" name="type" placeholder="type"></td>
+								<td><input type="text" name="material" placeholder="material"></td>
+								<td><input type="text" name="points" placeholder="points"></td>
+								<td><input type="submit" value="New"></td>
+								</tr>
+								</form>
+				</table>
+			</fieldset>
+			{{ err }}
+			</br>
+		{% else %}
+			<fieldset>
+			<legend><h2>list of users</h2></legend>
+				{% for u in list_user  %}
+					<a href="{% url 'myWeb:userPage' u.id %}">{{u.username}}</a></br>
+				{% endfor %}
+			</fieldset>
+		{% endif %}
+	</body>
+</html>

@@ -4,15 +4,16 @@ from django.contrib.auth.models import User
 from rest_framework.views import APIView
 from rest_framework.response import Response
 
-from .models import UserPoints,UserLog
+from .models import UserPoints,UserLog,Package
 
 import json
 
-max_id = 7000000000000
+max_id = 8000000000000
 min_id = 5000000000000
 # Create your views here.
 class get_userdata(APIView):
     def get(self,request):
+        print("000000000000")
         username = int(self.request.query_params.get('id'))
         if (username<=max_id and username>=min_id):
             try:
@@ -44,13 +45,16 @@ class update_data(APIView):
         print("88888888888888888")
         print(request.data['id'])
         getUser = User.objects.get(username=request.data['id'])
-        # print(getUser)
-        thisUser = UserPoints.objects.get(user=getUser)
-        thisUser.points+=int(request.data['points'])
-        thisUser.save()
-        UserLog.objects.create(user=getUser,
-        type =request.data['type'],
-        weight=request.data['weight'],
-        points=request.data['points'])
-
-        return Response({"id":request.data['id'],"points":thisUser.points})
+        try:
+            getPackage = Package.objects.get(package_id=request.data['package_id'])
+        except:
+            data = {"error": "Sorry, No Data For This Package."}
+        else:
+            # print(getUser)
+            thisUser = UserPoints.objects.get(user=getUser)
+            thisUser.points+=getPackage.points
+            points = thisUser.points
+            thisUser.save()
+            UserLog.objects.create(user=getUser,
+                                    package_id=getPackage.package_id)
+            return Response({"points":points,"package_points":getPackage.points})

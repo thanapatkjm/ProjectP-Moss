@@ -25,8 +25,9 @@ SECRET_KEY = 'uo^d8u@e2_c5o4884z%mgbiib$r=e!h85jz!ncxfmq%pc5rd7j'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+# ALLOWED_HOSTS = ['192.168.137.1']
 
+ALLOWED_HOSTS = ['*']
 
 # Application definition
 
@@ -38,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'api',
+    'myWebApps',
     'corsheaders',
     'rest_framework',]
 
@@ -58,7 +60,7 @@ ROOT_URLCONF = 'server.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': ['myWebApps/templates',],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

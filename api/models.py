@@ -10,6 +10,13 @@ class UserPoints(models.Model):
 class UserLog(models.Model):
     user = models.ForeignKey(User,on_delete=models.CASCADE)
     datetime = models.DateTimeField(default=datetime.now)
+    InEx = models.TextField(default="Income")
+    points = models.IntegerField(default="0")
+    package_id = models.TextField(default="-")
+
+class Package(models.Model):
+    package_id = models.TextField(primary_key=True)
+    name = models.TextField(unique=True,default="")
     type = models.TextField()
-    weight = models.TextField()
     points = models.IntegerField()
+    material = models.TextField(default="Plastic")    # Plastic , Aluminium, Metal

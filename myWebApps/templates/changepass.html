@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<style>
+	body {margin:0;}
+
+	font-family: Arial;
+	}
+
+	* {
+	box-sizing: border-box;
+	}
+
+	fieldset {
+  display: block;
+  margin-left: 10px;
+  margin-right: 2px;
+  padding-top: 0.35em;
+  padding-bottom: 0.625em;
+  padding-left: 0.75em;
+  padding-right: 0.75em;
+  border: 2px groove (internal value);
+  width:400px;
+	font-size:18px;
+	}
+
+	.button {
+	  background-color: #4CAF50; /* Green */
+	  border: none;
+	  color: white;
+	  padding: 16px 32px;
+	  text-align: center;
+	  text-decoration: none;
+	  display: inline-block;
+	  font-size: 16px;
+		margin-left: 10px;
+	  margin-right: 2px;
+	  -webkit-transition-duration: 0.4s; /* Safari */
+	  transition-duration: 0.4s;
+	  cursor: pointer;
+	}
+	.button1 {
+	  background-color: white;
+	  color: black;
+	  border: 2px solid #000000;
+		position: relative;
+	}
+
+	.button1:hover {
+	  background-color: #000000;
+	  color: white;
+	}
+
+	ul {
+	  list-style-type: none;
+	  margin: 0;
+	  padding: 0;
+	  overflow: hidden;
+	  background-color: black	;
+	  position: fixed;
+	  top: 0;
+	  width: 100%;
+	}
+
+	li {
+	  float: left;
+	}
+
+	li a {
+	  display: block;
+	  color: white;
+	  text-align: center;
+	  padding: 14px 16px;
+	  text-decoration: none;
+	}
+
+	.rightmenu {
+	  background-color: green;
+	}
+	</style>
+</head>
+	<body>
+	<ul>
+	  <li><a>WebSite</a></li>
+	</ul>
+		<br><br><h2>{{ err }}</h2>
+        <fieldset>
+		<form action="{% url 'myWeb:passChanged' %}" method="post">
+		{% csrf_token %}
+		 <legend><h2>Change Password</h2></legend>
+			Old Password: <input type="password" name="Opassword" placeholder="Old Password"><br><br>
+			New Password: <input type="password" name="Npassword" placeholder="New Password"><br><br>
+			Confirm Password: <input type="password" name="Cpassword" placeholder="Confirm Password"><br><br>
+			<input type="submit" value="Submit">
+        </form>
+        <form action="{% url 'myWeb:home' %}" method="get">
+			<input type="submit" value="Back">
+        </form>
+        </fieldset>
+	</body>
+</html>

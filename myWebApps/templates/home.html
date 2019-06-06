@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<style>
+	body {margin:0;}
+
+	font-family: Arial;
+	}
+
+	* {
+	box-sizing: border-box;
+	}
+
+	fieldset {
+  display: block;
+  margin-left: 10px;
+  margin-right: 2px;
+  margin-top: 80px;
+  padding-top: 0em;
+  padding-bottom: 0.625em;
+  padding-left: 0.75em;
+  padding-right: 0.75em;
+  border: 2px groove (internal value);
+  width:550px;
+  background-color: white;
+
+
+	font-size:18px;
+	}
+	.small {
+	  width:300px;
+	}
+	.left {
+	  float:left;
+	  width:50%;
+	}
+	.right {
+	  float:left;
+	  width:50%;
+	}
+	.button {
+	  background-color: #4CAF50; /* Green */
+	  border: none;
+	  color: white;
+	  padding: 16px 32px;
+	  text-align: center;
+	  text-decoration: none;
+	  display: inline-block;
+	  font-size: 16px;
+		margin-left: 10px;
+	  margin-right: 2px;
+	  -webkit-transition-duration: 0.4s; /* Safari */
+	  transition-duration: 0.4s;
+	  cursor: pointer;
+	}
+	.button1 {
+	  background-color: white;
+	  color: black;
+	  border: 2px solid #000000;
+		position: relative;
+	}
+
+	.button1:hover {
+	  background-color: #000000;
+	  color: white;
+	}
+	.rightmenu {
+	  background-color: green;
+	}
+	ul {
+	  list-style-type: none;
+	  margin: 0;
+	  padding: 0;
+	  overflow: hidden;
+	  background-color: black	;
+	  position: fixed;
+	  top: 0;
+	  width: 100%;
+	}
+
+	li {
+	  float: left;
+	}
+
+	li a {
+	  display: block;
+	  color: white;
+	  text-align: center;
+	  padding: 14px 16px;
+	  text-decoration: none;
+	}
+
+	.rightmenu {
+	  background-color: green;
+	}
+	</style>
+</head>
+	<body style= " background: url(http://dcs.op.kmutnb.ac.th/images/kmutnb.jpg); background-size: cover">
+	<ul>
+		<li><a>myWeb</a></li>
+        <li style="float:right"><a class="rightmenu" href="{% url 'myWeb:logout' %}">LogOut</a></li>
+        <li style="float:right"><a>{{ user.get_username }}</a></li>
+	</ul>
+
+		<fieldset class="small">
+		 <h2>Informations</h2>
+			Username: {{user.username}}<br><br>
+			Point(s): {{points}} <br><br>
+			<form action="{% url 'myWeb:changepass' %}" method="post">
+			{% csrf_token %}
+				<input type="submit" value="Change Password">
+			</form>
+		</fieldset>
+		<fieldset>
+		<h2>History</h2>
+				{% if log %}
+					<table border="1">
+					<tr>
+						<th>datetime</th>
+						<th>package_id</th>
+						<th>package_name</th>
+						<th>points</th>
+						<th>In/Ex</th>
+					</tr>
+							{% for userLog in log %}
+							<div style="overflow-x:auto;"></div>
+							<tr>
+								<td>{{userLog.datetime}}</td>
+								<td>{{userLog.package_id}}</td>
+								<td>{{userLog.name}}</td>
+								<td>{{userLog.points}}</td>
+								<td>{{userLog.InEx}}</td>
+							</tr>
+							</div>
+							</form>
+
+							{% endfor%}
+					</table>
+				{% else %}
+					There is No History of this Account.
+				{% endif %}
+		</fieldset>
+
+	</body>
+</html>
