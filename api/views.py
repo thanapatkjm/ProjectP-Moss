@@ -56,5 +56,16 @@ class update_data(APIView):
             points = thisUser.points
             thisUser.save()
             UserLog.objects.create(user=getUser,
-                                    package_id=getPackage.package_id)
+                                    package_id=getPackage.package_id,
+                                    points=getPackage.points)
             return Response({"points":points,"package_points":getPackage.points})
+
+class no_id(APIView):
+    def get(self,request):
+        waste_id = int(self.request.query_params.get('id'))
+        try:
+            thisPackage = Package.objects.get(package_id=waste_id)
+        except:
+            return Response({"have":False})
+        else:
+            return Response({"have":True,"material":thisPackage.material})
