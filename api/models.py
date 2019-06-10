@@ -2,6 +2,8 @@ from django.db import models
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.contrib.auth.models import User  #username , password , email
 from datetime import datetime    
+import pytz
+from django.utils import timezone
 
 class UserPoints(models.Model):
     user = models.OneToOneField(User,on_delete=models.CASCADE)
@@ -9,7 +11,7 @@ class UserPoints(models.Model):
 
 class UserLog(models.Model):
     user = models.ForeignKey(User,on_delete=models.CASCADE)
-    datetime = models.DateTimeField(default=datetime.now)
+    datetime = models.DateTimeField(default=timezone.now())
     InEx = models.TextField(default="Income")
     points = models.IntegerField(default="0")
     package_id = models.TextField(default="-")

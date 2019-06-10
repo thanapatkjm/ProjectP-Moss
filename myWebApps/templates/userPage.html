@@ -95,7 +95,7 @@
 	<body>
 	<ul>
 		<li><a>myWeb</a></li>
-        <li style="float:right"><a class="rightmenu" href="{% url 'myWeb:adminHome' %}">LogOut</a></li>
+        <li style="float:right"><a class="rightmenu" href="{% url 'myWeb:logout' %}">LogOut</a></li>
         <li style="float:right"><a href="{% url 'myWeb:home' %}">{{ user.get_username }}</a></li>
 	</ul>
 	</br>

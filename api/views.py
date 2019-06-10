@@ -8,6 +8,8 @@ from .models import UserPoints,UserLog,Package
 
 import json
 
+from django.utils import timezone
+
 max_id = 8000000000000
 min_id = 5000000000000
 # Create your views here.
@@ -41,6 +43,7 @@ class get_userdata(APIView):
 
 class update_data(APIView):
     def post(self,request):
+        print(timezone.now())
         # body = id , points, type, weight
         print("88888888888888888")
         print(request.data['id'])
